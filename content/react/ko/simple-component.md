@@ -1,30 +1,32 @@
 ---
-title: "Build a simple component"
-tocTitle: "Simple component"
-description: "Build a simple component in isolation"
-commit: 131aade
+title: "간단한 컴포넌트 제작하기"
+tocTitle: "간단한 컴포넌트"
+description: "간단한 컴포넌트를 제작해봅시다"
+commit: 
 ---
 
-# Build a simple component
+# 간단한 컴포넌트 제작하기
 
-We’ll build our UI following a [Component-Driven Development](https://blog.hichroma.com/component-driven-development-ce1109d56c8e) (CDD) methodology. It’s a process that builds UIs from the “bottom up” starting with components and ending with screens. CDD helps you scale the amount of complexity you’re faced with as you build out the UI.
+우리는 [Component-Driven Development](https://blog.hichroma.com/component-driven-development-ce1109d56c8e) (CDD) 에 입각해 UI를 만들어 볼 것입니다. CDD는 아주 작은 컴포넌트부터 만들어 하나의 거대한 컴포넌트에 이르기까지 조금씩 조합해나가는 UI 컴포넌트 설계론입니다. CDD는 여러분들이 UI를 설계 시 따라오는 복잡성에 대한 실마리를 제공해줍니다.
 
 ## Task
 
 ![Task component in three states](/task-states-learnstorybook.png)
 
 `Task` is the core component in our app. Each task displays slightly differently depending on exactly what state it’s in. We display a checked (or unchecked) checkbox, some information about the task, and a “pin” button, allowing us to move tasks up and down the list. Putting this together, we’ll need these props:
+`Task` 는 우리의 어플리케이션에서 코어 컴포넌트에 해당됩니다. 각각의 task는 어떤 상태값을 가지냐에 따라 화면에 조금씩 다르게 표현합니다. 지금부터 체크 가능한 (체크 해제도 가능한) 체크박스, task에 대한 정보, "pin" 버튼을 표시해보겠습니다. 이 컴포넌트들은 리스트 내에서 순서 변경이 가능합니다. 우선, 아래와 같은 props들이 필요합니다.
 
-* `title` – a string describing the task
-* `state` - which list is the task currently in and is it checked off?
+* `title` – task 를 설명하는 string 값
+* `state` - '어떤 리스트가 task에 해당하고 체크 온(오프)가 되었는지'에 대한 값
 
-As we start to build `Task`, we first write our test states that correspond to the different types of tasks sketch above. Then we use Storybook to build the component in isolation using mocked data. We’ll “visual test” the component’s appearance given each state as we go.
+먼저 위의 스케치에서 본 다양한 종류의 `Task` 에 부합하는 테스트 상태를 작성해보겠습니다. 조금 뒤에는 Storybook 을 사용해 컴포넌트를 목업 데이터를 결합시켜 만들어보겠습니다. 또한 "비주얼 테스트" 를 통해 우리가 의도한 대로 컴포넌트가 맞게 그려졌는지 테스트 해볼 것입니다.
 
-This process is similar to [Test-driven development](https://en.wikipedia.org/wiki/Test-driven_development) (TDD) that we can call “[Visual TDD](https://blog.hichroma.com/visual-test-driven-development-aec1c98bed87)”.
+이 과정은 "[비주얼 TDD](https://blog.hichroma.com/visual-test-driven-development-aec1c98bed87)" 라고도 부르는 [테스트 주도 개발](https://en.wikipedia.org/wiki/Test-driven_development) 과도 비슷합니다.
 
-## Get setup
+## 설치하기
 
 First, let’s create the task component and its accompanying story file: `src/components/Task.js` and `src/components/Task.stories.js`.
+가장 먼저 task 컴포넌트와 작업에 같이 필요한 `src/components/Task.js`, `src/components/Task.stories.js` 스토리 파일을 생성합니다.
 
 We’ll begin with a basic implementation of the `Task`, simply taking in the attributes we know we’ll need and the two actions you can take on a task (to move it between lists):
 
