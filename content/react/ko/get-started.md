@@ -43,25 +43,25 @@ yarn start
 ```
 
 <div class="aside">
-  NOTE: If <code>yarn test</code> throws an error, you may need to install <code>watchman</code> as advised in <a href="https://github.com/facebook/create-react-app/issues/871#issuecomment-252297884">this issue</a>.
+  NOTE: 만약 <code>yarn test</code> 에서 오류가 나온다면, <a href="https://github.com/facebook/create-react-app/issues/871#issuecomment-252297884">가이드</a>를 참고해 <code>watchman</code>를 설치해보시는 것을 권장드립니다.
 </div>
 
-Our three frontend app modalities: automated test (Jest), component development (Storybook), and the app itself.
+아래에는 다음과 같은 어플리케이션 활용 양식이 있습니다: 자동 테스트 툴 (Jest), 컴포넌트 개발 환경 (Storybook), 어플리케이션
 
 ![3 modalities](/app-three-modalities.png)
 
-Depending on what part of the app you’re working on, you may want to run one or more of these simultaneously. Since our current focus is creating a single UI component, we’ll stick with running Storybook.
+어떤 어플리케이션에서 작업을 하시게 될 지는 모르지만, 아마도 한 개 이상의 기능을 사용하시게 될 것이라 생각합니다. 그렇지만 지금 우리는 UI 컴포넌트에 대해서 알아보는 중이므로, 계속해서 Storybook 에 대해서 알아보겠습니다.
 
-## Reuse CSS
+## 재사용 가능한 CSS
 
-Taskbox reuses design elements from the GraphQL and React Tutorial [example app](https://blog.hichroma.com/graphql-react-tutorial-part-1-6-d0691af25858), so we won’t need to write CSS in this tutorial. We’ll simply compile the LESS to a single CSS file and include it in our app. Copy and paste [this compiled CSS](https://github.com/hichroma/learnstorybook-code/blob/master/src/index.css) into the src/index.css file per CRA’s convention.
+Taskbox 는 GraphQL과 React 튜토리얼 [example app](https://blog.hichroma.com/graphql-react-tutorial-part-1-6-d0691af25858)에서 설명하고 있는 디자인 요소들을 재활용하고 있기때문에 이 곳에서는 CSS를 처음부터 작성하지는 않을 것입니다. 대신 단일 CSS 파일에 LESS를 컴파일한 결과를 저장하고 어플리케이션에 적용해보겠습니다. [컴파일 된 CSS](https://github.com/hichroma/learnstorybook-code/blob/master/src/index.css)를 각 CRA 컨벤션의 src/index.css 파일마다 적용해주세요.
 
 ![Taskbox UI](/ss-browserchrome-taskbox-learnstorybook.png)
 
 <div class="aside">
-If you want to modify the styling, the source LESS files are provided in the GitHub repo.
+혹시라도 스타일을 변경하고 싶으시다면, Github 저장소에서 LESS 파일 소스를 제공받으실 수 있습니다.
 </div>
 
-## Add assets
+## 정적 파일 추가
 
-We also need to add the font and icon [directories](https://github.com/hichroma/learnstorybook-code/tree/master/public) to the `public/` folder. After adding styling and assets, the app will render a bit strangely. That’s OK. We aren’t working on the app right now. We’re starting off with building our first component!
+우리는 폰트와 아이콘 [디렉토리](https://github.com/hichroma/learnstorybook-code/tree/master/public) 를 `public/` 폴더에 추가해야 합니다. 스타일과 정적 파일들을 추가하고 나면 어플리케이션이 조금 낯설어 보일 수 있습니다. 하지만 아직은 어플리케이션에서 본격적으로 작업하는 것이 아니기때문에 괜찮습니다. 이제 첫 번째 컴포넌트를 만드는 것으로 시작해보겠습니다!
