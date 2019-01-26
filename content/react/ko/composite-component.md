@@ -1,29 +1,28 @@
 ---
-title: "Assemble a composite component"
-tocTitle: "Composite component"
-description: "Assemble a composite component out of simpler components"
-commit: '5776042'
+title: "합성 컴포넌트 조립하기"
+tocTitle: "합성 컴포넌트"
+description: "간단한 컴포넌트들에서 합성 컴포넌트를 조립하기"
 ---
 
-# Assemble a composite component
+# 합성 컴포넌트 조립하기
 
-Last chapter we built our first component; this chapter extends what we learned to build TaskList, a list of Tasks. Let’s combine components together and see what happens when more complexity is introduced.
+지난 챕터에서 우리는 첫 번째 컴포넌트를 생성했습니다. 이번 챕터에서는 Task의 목록인 TaskList에 대해 좀 더 이야기하겠습니다. 컴포넌트들을 합쳐 복잡성이 증가했을 때 어떤 일이 발생하는지 살펴보겠습니다.
 
-## Tasklist
+## 작업목록 - TaskList
 
-Taskbox emphasizes pinned tasks by positioning them above default tasks. This yields two variations of `TaskList` you need to create stories for: default items and default and pinned items.
+작업목록(Taskbox)은 고정 작업들을 기본 작업들 위에 배치시켜서 눈에 띠게 해줍니다. 이러한 효과는 스토리를 만들기위한 작업 목록(기본 작업과 중요 작업을 포함한)에 두 가지 변화를 불러일으킵니다.
 
 ![default and pinned tasks](/tasklist-states-1.png)
 
-Since `Task` data can be sent asynchronously, we **also** need a loading state to render in the absence of a connection. In addition, an empty state is required when there are no tasks.
+`작업(Task)`은 데이터를 비동기적으로 가져오기때문에, 우리는 연결 상태가 좋지 않을 때 필요한 로딩 상태 **역시** 필요합니다. 게다가, 작업 목록이 하나도 없을 때 필요한 빈 상태도 필요합니다.
 
 ![empty and loading tasks](/tasklist-states-2.png)
 
-## Get setup
+## 구성하기
 
-A composite component isn’t much different than the basic components it contains. Create a `TaskList` component and an accompanying story file: `src/components/TaskList.js` and `src/components/TaskList.stories.js`.
+합성 컴포넌트는 기본 컴포넌트와 크게 다르지 않습니다. `TaskList`을 만들고 그에 맞는 스토리 파일도 만들어주세요.: `src/components/TaskList.js`, `src/components/TaskList.stories.js`.
 
-Start with a rough implementation of the `TaskList`. You’ll need to import the `Task` component from earlier and pass in the attributes and actions as inputs.
+`TaskList`의 실행부를 간단하게 구현해보는 것으로 시작합시다. `Task` 컴포넌트를 불러오고 속성과 액션을 입력값으로 전달합니다.
 
 ```javascript
 import React from 'react';
@@ -54,7 +53,7 @@ function TaskList({ loading, tasks, onPinTask, onArchiveTask }) {
 export default TaskList;
 ```
 
-Next create `Tasklist`’s test states in the story file.
+다음 `TaskList`의 테스트 상태를 스토리 파일안에 만들겠습니다.
 
 ```javascript
 import React from 'react';
@@ -85,15 +84,15 @@ storiesOf('TaskList', module)
   .add('empty', () => <TaskList tasks={[]} {...actions} />);
 ```
 
-`addDecorator()` allows us to add some “context” to the rendering of each task. In this case we add padding around the list to make it easier to visually verify.
+`addDecorator()` 메소드는 렌더링되는 각 작업(task)에 "컨텍스트"를 추가할 수 있게합니다. 지금같은 경우는 시각적으로 더 눈에 잘 보이게 리스트에 padding을 주었습니다.
 
 <div class="aside">
-<a href="https://storybook.js.org/addons/introduction/#1-decorators"><b>Decorators</b></a> are a way to provide arbitrary wrappers to stories. In this case we’re using a decorator to add styling. They can also be used to wrap stories in “providers” –i.e. library components that set React context.
+<a href="https://storybook.js.org/addons/introduction/#1-decorators"><b>데코레이터</b></a>는 스토리를 감싸는 임의의 포장지입니다. 위의 코드에서는 코드에 스타일을 적용하기 위해 데코레이터를 사용하고 있습니다. 데코레이터는 리액트 컨텍스트를 설정하는 라이브러리 컴포넌트와 같이 "providers" 내에서 사용될 수도 있습니다.
 </div>
 
-`task` supplies the shape of a `Task` that we created and exported from the `Task.stories.js` file. Similarly, `actions` defines the actions (mocked callbacks) that a `Task` component expects, which the `TaskList` also needs.
+`task`는 `Task.stories.js` 파일에서 내보냈던 `작업(Task)`의 외형을 만듭니다. 비슷하게, `actions`는 `Task(작업)` 컴포넌트와 `TaskList(작업 목록)`가 기대하는 액션(임시로 만든 콜백 메소드들)을 정의합니다.  
 
-Now check Storybook for the new `TaskList` stories.
+이제 새로운 `TaskList` 스토리들의 스토리북을 확인해보겠습니다.
 
 <video autoPlay muted playsInline loop>
   <source
@@ -102,9 +101,9 @@ Now check Storybook for the new `TaskList` stories.
   />
 </video>
 
-## Build out the states
+## 상태 생성하기
 
-Our component is still rough but now we have an idea of the stories to work toward. You might be thinking that the `.list-items` wrapper is overly simplistic. You're right – in most cases we wouldn’t create a new component just to add a wrapper. But the **real complexity** of `TaskList` component is revealed in the edge cases `withPinnedTasks`, `loading`, and `empty`.
+우리의 컴포넌트는 아직 어딘가 부족하지만 그래도 앞으로 어떻게 진행해야하는지에 대한 스토리의 개념은 이해하고 있습니다. 혹시라도 `.list-items` 클래스를 가진 태그가 너무 지나치게 간단하다고 생각하실 수도 있습니다. 맞습니다. 사실 거의 대부분의 경우엔 단순히 wrapper 태그를 만들기 위해 새로운 컴포넌트를 만들지 않습니다. 그러나 `TaskList` 컴포넌트의 **실제 복잡성**은 `withPinnedTasks`, `loading`, 그리고 `empty`와 같은 엣지케이스에서 나타납니다.
 
 ```javascript
 import React from 'react';
@@ -166,7 +165,7 @@ function TaskList({ loading, tasks, onPinTask, onArchiveTask }) {
 export default TaskList;
 ```
 
-The added markup results in the following UI:
+새로 추가된 마크업은 아래 UI에서 확인해보세요.
 
 <video autoPlay muted playsInline loop>
   <source
@@ -175,11 +174,11 @@ The added markup results in the following UI:
   />
 </video>
 
-Note the position of the pinned item in the list. We want the pinned item to render at the top of the list to make it a priority for our users.
+리스트내의 고정 아이템의 위치에 대해 주목하세요. 우리는 사용자들을 위해 고정 아이템으로 선택된 아이템들을 상단에 렌더링하길 원합니다.
 
-## Data requirements and props
+## 데이터 요구사항과 props
 
-As the component grows, so too do input requirements. Define the prop requirements of `TaskList`. Because `Task` is a child component, make sure to provide data in the right shape to render it. To save time and headache, reuse the propTypes you defined in `Task` earlier.
+컴포넌트가 점점 커짐에 따라, 입력 값에 대한 요구사항 또한 많아지고 있습니다. `TaskList`의 prop 요구사항에 대해 정의하세요. `Task`는 자식 컴포넌트이기 때문에, 렌더링하기 위한 적절한 데이터를 보내고 있는지 확인하세요. 일전에 `Task` 안에서 정의한 propTypes를 사용한다면 머리를 쥐어뜯는 불필요한 시간을 절약할 수 있습니다.
 
 ```javascript
 import React from 'react';
@@ -204,23 +203,23 @@ TaskList.defaultProps = {
 export default TaskList;
 ```
 
-## Automated testing
+## 자동화 테스트
 
-In the previous chapter we learned how to snapshot test stories using Storyshots. With `Task` there wasn’t a lot of complexity to test beyond that it renders OK. Since `TaskList` adds another layer of complexity we want to verify that certain inputs produce certain outputs in a way amenable to automatic testing. To do this we’ll create unit tests using [Jest](https://facebook.github.io/jest/) coupled with a test renderer such as [Enzyme](http://airbnb.io/enzyme/).
+지난 챕터에서는 Storyshot을 이용해 스토리의 스냅샷 테스트를 하는 방법을 배웠습니다. `Task` 만 테스트했을 땐 제대로 렌더링이 되었는지 확인하는 것 외에는 그다지 테스트 할 것이 많지 않았습니다. 그러나 `TaskList`는 다른 레이어를 추가함으로써 복잡성이 증가했기때문에 특정한 입력에 특정한 결과가 제대로 출력이 되는지 익숙한 자동 테스트 방식으로 검사해보고 싶습니다. 이 방법을 위해선 [Enzyme](http://airbnb.io/enzyme/)와 같은 테스트 렌더러와 함께 [Jest](https://facebook.github.io/jest/)를 이용해 유닛 테스트를 만들 것입니다.
 
 ![Jest logo](/logo-jest.png)
 
-### Unit tests with Jest
+### 유닛 테스트와 Jest
 
-Storybook stories paired with manual visual tests and snapshot tests (see above) go a long way to avoiding UI bugs. If stories cover a wide variety of component use cases, and we use tools that ensure a human checks any change to the story, errors are much less likely.
+스토리북의 스토리들은 수동 테스트와 스냅샷 테스트(위 내용을 참고하세요)를 한 쌍으로 가져가 UI 버그를 멀리합니다. 만약 스토리들이 컴포넌트 유즈 케이스들을 포괄적으로 덮어준다면, 우리는 스토리 변화를 확인시켜줄 도구를 사용하게 되고, 에러는 더욱 줄어들 것입니다.
 
-However, sometimes the devil is in the details. A test framework that is explicit about those details is needed. Which brings us to unit tests.
+그러나, 때로는 골치아픈 일일 수 있습니다. 유닛 테스르르 위한 상세를 명확하게 해주어야 하는 테스트 프레임워크가 필요합니다.
 
-In our case, we want our `TaskList` to render any pinned tasks **before** unpinned tasks that it is passed in the `tasks` prop. Although we have a story (`withPinnedTasks`) to test this exact scenario; it can be ambiguous to a human reviewer that if the component **stops** ordering the tasks like this, it is a bug. It certainly won’t scream **“Wrong!”** to the casual eye.
+우리가 속한 경우로 보자면, 우린 `TaskList`가 `tasks` prop으로 전달된 고정되지 않은 작업(task)들 **보다 먼저** 고정 작업(task)들을 렌더링하길 원합니다. 정확하게 같은 시나리오를 테스트 해줄 (`withPinnedTasks`) 스토리를 가지고 있지만 사람의 눈에는 이러한 렌더링 결과가 혹시라도 작업들의 우선순위를 정렬하는 행위를 **하지 않는 것**이 아닐까, 혹시라도 버그가 아닐까 하는 착각이 들게 할 수도 있습니다. 유닛 테스트는 적어도 **잘못 됐어!** 라고 소리는 지르지 않을테니 걱정마세요.
 
-So, to avoid this problem, we can use Jest to render the story to the DOM and run some DOM querying code to verify salient features of the output.
+결국 이런 문제를 만나고 싶지 않다면 Jest를 사용해서 스토리를 DOM에 렌더링하고 DOM 쿼리를 수행하는 코드를 실행시켜 결과로 나와야 하는 값의 주요 스펙을 확인하세요.
 
-Create a test file called `TaskList.test.js`. Here we’ll build out our tests that make assertions about the output.
+`TaskList.test.js` 테스트 파일을 생성하세요. 다음은 결과에 대한 상세 내용을 설명한 테스트를 만들어 놓은 코드입니다.
 
 ```javascript
 import React from 'react';
@@ -228,12 +227,12 @@ import ReactDOM from 'react-dom';
 import TaskList from './TaskList';
 import { withPinnedTasks } from './TaskList.stories';
 
-it('renders pinned tasks at the start of the list', () => {
+it('리스트 첫 부분에는 고정 작업(task)들을 렌더링한다.', () => {
   const div = document.createElement('div');
   const events = { onPinTask: jest.fn(), onArchiveTask: jest.fn() };
   ReactDOM.render(<TaskList tasks={withPinnedTasks} {...events} />, div);
 
-  // We expect the task titled "Task 6 (pinned)" to be rendered first, not at the end
+  // "Task 6 (pinned)" 타이틀을 가진 작업(task)이 마지막이 아닌 처음에 렌더링 되는 것이 결과의 기대값입니다.
   const lastTaskInput = div.querySelector('.list-item:nth-child(1) input[value="Task 6 (pinned)"]');
   expect(lastTaskInput).not.toBe(null);
 
@@ -243,6 +242,6 @@ it('renders pinned tasks at the start of the list', () => {
 
 ![TaskList test runner](/tasklist-testrunner.png)
 
-Note that we’ve been able to reuse the `withPinnedTasks` list of tasks in both story and unit test; in this way we can continue to leverage an existing resource (the examples that represent interesting configurations of a component) in more and more ways.
+`withPinnedTasks` 를 스토리와 유닛 테스트 모두 재사용할 수 있었던 것에 주목하세요. 이런 방법은 실제 소스 코드(컴포넌트의 설정을 표현하는 예제)에 미치는 효력을 유지할 수 있게 해줍니다.
 
 Notice as well that this test is quite brittle. It's possible that as the project matures, and the exact implementation of the `Task` changes --perhaps using a different classname or a `textarea` rather than an `input`--the test will fail, and need to be updated. This is not necessarily a problem, but rather an indication to be careful liberally using unit tests for UI. They're not easy to maintain. Instead rely on visual, snapshot, and visual regression (see [testing chapter](/test/)) tests where possible.
