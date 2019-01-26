@@ -244,4 +244,4 @@ it('리스트 첫 부분에는 고정 작업(task)들을 렌더링한다.', () =
 
 `withPinnedTasks` 를 스토리와 유닛 테스트 모두 재사용할 수 있었던 것에 주목하세요. 이런 방법은 실제 소스 코드(컴포넌트의 설정을 표현하는 예제)에 미치는 효력을 유지할 수 있게 해줍니다.
 
-Notice as well that this test is quite brittle. It's possible that as the project matures, and the exact implementation of the `Task` changes --perhaps using a different classname or a `textarea` rather than an `input`--the test will fail, and need to be updated. This is not necessarily a problem, but rather an indication to be careful liberally using unit tests for UI. They're not easy to maintain. Instead rely on visual, snapshot, and visual regression (see [testing chapter](/test/)) tests where possible.
+이 테스트는 단단하게 짜여진 테스트가 아니란 점도 주목하세요. 프로젝트가 커지고 `Task`의 실행부가 바뀌게된다면 --아마도 다른 다른 클래스명을 사용하거나 `input` 대신 `textarea`를 사용한다던지의 경우겠지요-- 테스트는 실패할 겁니다. 그리고 재조정이 필요하겠지요. 이게 꼭 문제라고 볼 필요는 없지만 UI에 대한 단위 테스트를 좀 더 주의해서 사용해야한다는 일종의 경고문으로 생각하시면 됩니다. 이러한 단위 테스트들은 관리하기가 쉽지는 않습니다. 되도록이면 시각적, 스냅샷 및 시각적 회귀 테스트([테스트 챕터](/test/) 참조)에 의존하세요.
