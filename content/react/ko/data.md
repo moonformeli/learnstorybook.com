@@ -1,36 +1,35 @@
 ---
-title: "Wire in data"
-tocTitle: "Data"
-description: "Learn how to wire in data to your UI component"
-commit: dd04879
+title: "데이터 연결하기"
+tocTitle: "데이터"
+description: "UI 컴포넌트에 데이터 연결하기"
 ---
 
-# Wire in data
+# 데이터 연결하기
 
-So far we created isolated stateless components –great for Storybook, but ultimately not useful until we give them some data in our app.
+지금까지 우리는 stateless한 컴포넌트들을 만들었습니다. (스토리북에 적합하지만 어플리케이션에 데이터를 넣어주지 않는 한 그다지 유용하다고는 볼 수는 없습니다.)
 
-This tutorial doesn’t focus on the particulars of building an app so we won’t dig into those details here. But we will take a moment to look at a common pattern for wiring in data with container components.
+이 튜토리얼은 개별적인 어플리케이션을 만드는 과정에 지나치게 몰두하지는 않을 것입니다. 그 대신 흔히 사용되는 컨테이너 컴포넌트에 데이터를 연결하는 패턴을 살펴볼 것입니다.
 
-## Container components
+## 컨테이너 컴포넌트
 
-Our `TaskList` component as currently written is “presentational” (see [this blog post](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)) in that it doesn’t talk to anything external to its own implementation. To get data into it, we need a “container”.
+우리의 `TaskList` 컴포넌트는 현재 껍데기에 불과한 "피상적인" 형태에 가깝습니다. ([블로그를 참고](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)하세요) 아직 이 컴포넌트는 외부의 다른 누구에게도 실행 코드에 대한 어떤 것도 설명해주고 있지 않습니다. 데이터를 전달해주기 위해서는, "컨테이너"라고 부르는 것이 필요합니다.
 
-This example uses [Redux](https://redux.js.org/), the most popular React library for storing data, to build a simple data model for our app. However, the pattern used here applies just as well to other data management libraries like [Apollo](https://www.apollographql.com/client/) and [MobX](https://mobx.js.org/).
+이 예제는 리액트의 라이브러리 중 데이터 정렬로 가장 유명한 [리덕스](https://redux.js.org/)를 사용합니다. 우리의 어플리케이션의 데이터 모델을 좀 더 심플하게 가져갈 수 있는 좋은 라이브러리입니다. 하지만, 이 곳에서 사용되는 패턴은 다른 데이터 상태관리 라이브러리들과 크게 다르지 않습니다. 예를 들면 [Apollo](https://www.apollographql.com/client/) 와 [MobX](https://mobx.js.org/)입니다.
 
-Add a new dependency on `package.json` with:
+새로운 디펜던시 정보를 `package.json`에 추가하세요.
 
 ```bash
 yarn add react-redux
 ```
 
-First we’ll construct a simple Redux store that responds to actions that change the state of tasks, in a file called `lib/redux.js` in the `src` folder (intentionally kept simple):
+먼저 작업(task)들의 상태 변화에 대해 대응할 액션(action)을 갖는 리덕스 스토어를 `src`폴더 안에 `lib/redux.js`에 만들겠습니다. (계속해서 간결해지고자 함이 이 작업의 목적입니다.)
 
 ```javascript
-// A simple redux store/actions/reducer implementation.
-// A true app would be more complex and separated into different files.
+// 리덕스 스토어/액션/리듀서 실행의 간단한 예제입니다.
+// 실제 어플리케이션은 더 복잡하고 각기 다른 파일로 나뉘어져 있을겁니다.
 import { createStore } from 'redux';
 
-// The actions are the "names" of the changes that can happen to the store
+// 액션은 스토어에서 어떠한 변화를 가리키는 "이름"들로 구분되어 있습니다.
 export const actions = {
   ARCHIVE_TASK: 'ARCHIVE_TASK',
   PIN_TASK: 'PIN_TASK',
